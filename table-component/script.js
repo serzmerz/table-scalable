@@ -5,6 +5,8 @@ class TableComponent extends HTMLElement {
         const cols = Number(this.getAttribute("cols"));
         this.rowCount = rows > 0 ? rows : 4;
         this.colCount = cols > 0 ? cols : 4;
+        this.colIndex = 0;
+        this.rowIndex = 0;
 
         const localDocument = document.currentScript.ownerDocument;
         const tmpl = localDocument.getElementById('tmpl');
@@ -44,16 +46,16 @@ class TableComponent extends HTMLElement {
     createEvents() {
         this.addColumnBtn.addEventListener('click', this.addColumn.bind(this));
         this.addRowBtn.addEventListener('click', this.addRow.bind(this));
-        /**this.table.addEventListener('mouseover', moveRemoveBtn);
-        this.table.addEventListener('mouseout', hideRemoveBtn);
+        this.table.addEventListener('mouseover', this.moveRemoveBtn.bind(this));
+        this.table.addEventListener('mouseleave', this.hideRemoveBtn.bind(this));
 
-        this.removeRowBtn.addEventListener('mouseover', showRemoveBtn);
-        this.removeRowBtn.addEventListener('mouseout', hideRemoveBtn);
-        this.removeRowBtn.addEventListener('click', removeRow);
+        this.removeRowBtn.addEventListener('mouseover', this.showRemoveBtn.bind(this));
+        this.removeRowBtn.addEventListener('mouseleave', this.hideRemoveBtn.bind(this));
+        this.removeRowBtn.addEventListener('click', this.removeRow.bind(this));
 
-        this.removeColumnBtn.addEventListener('mouseover', showRemoveBtn);
-        this.removeColumnBtn.addEventListener('mouseout', hideRemoveBtn);
-        this.removeColumnBtn.addEventListener('click', removeColumn);*/
+        this.removeColumnBtn.addEventListener('mouseover', this.showRemoveBtn.bind(this));
+        this.removeColumnBtn.addEventListener('mouseleave', this.hideRemoveBtn.bind(this));
+        this.removeColumnBtn.addEventListener('click', this.removeColumn.bind(this));
     }
 
     addColumn() {
@@ -75,8 +77,47 @@ class TableComponent extends HTMLElement {
             element.className = 'item';
             newTr.appendChild(element);
         }
-
         this.table.firstChild.appendChild(newTr);
+    }
+
+    showRemoveBtn() {
+        if (this.table.querySelector('.b-tr').childElementCount > 1) {
+            this.removeColumnBtn.classList.remove("b-btn-hidden");
+        }
+        if (this.table.rows.length > 1) {
+            this.removeRowBtn.classList.remove("b-btn-hidden");
+        }
+    }
+
+    moveRemoveBtn() {
+
+        this.showRemoveBtn();
+        const target = event.target;
+        if (target.tagName === 'TD') {
+            this.removeColumnBtn.style.left = `${target.offsetLeft}px`;
+            this.removeRowBtn.style.top = `${target.offsetTop}px`;
+            this.colIndex = target.cellIndex;
+            this.rowIndex = target.parentNode.rowIndex;
+        }
+    }
+
+    hideRemoveBtn() {
+        this.removeColumnBtn.classList.add("b-btn-hidden");
+        this.removeRowBtn.classList.add("b-btn-hidden");
+    }
+
+    removeRow() {
+        const tr = this.table.querySelectorAll('.b-tr');
+        tr[this.rowIndex].remove();
+        this.removeRowBtn.classList.add("b-btn-hidden");
+    }
+
+    removeColumn() {
+        const trItems = this.table.querySelectorAll('.b-tr');
+        for (let item of trItems) {
+            item.querySelectorAll('.item')[this.colIndex].remove();
+        }
+        this.removeColumnBtn.classList.add("b-btn-hidden");
 
     }
 
