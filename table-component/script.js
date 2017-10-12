@@ -7,6 +7,7 @@ class TableComponent extends HTMLElement {
         this.colCount = cols > 0 ? cols : 4;
         this.colIndex = 0;
         this.rowIndex = 0;
+        this.timeOutId = 0;
 
         const localDocument = document.currentScript.ownerDocument;
         const tmpl = localDocument.getElementById('tmpl');
@@ -81,6 +82,7 @@ class TableComponent extends HTMLElement {
     }
 
     showRemoveBtn() {
+        clearTimeout(this.timeOutId);
         if (this.table.querySelector('.b-tr').childElementCount > 1) {
             this.removeColumnBtn.classList.remove("b-btn-hidden");
         }
@@ -102,9 +104,11 @@ class TableComponent extends HTMLElement {
     }
 
     hideRemoveBtn() {
-        this.removeColumnBtn.classList.add("b-btn-hidden");
-        this.removeRowBtn.classList.add("b-btn-hidden");
-    }
+        this.timeOutId = setTimeout(()=> {
+            this.removeColumnBtn.classList.add("b-btn-hidden");
+            this.removeRowBtn.classList.add("b-btn-hidden");
+        },200);
+        }
 
     removeRow() {
         const tr = this.table.querySelectorAll('.b-tr');
