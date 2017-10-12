@@ -14,8 +14,9 @@
         .item {
             background-color: #499FE9;
             width: 50px;
-            height:50px;
+            height: 50px;
         }
+
         .b-btn {
             border: 0 solid white;
             color: white;
@@ -24,19 +25,20 @@
             font-size: 20px;
             font-weight: 600;
             margin: 0;
-            position:absolute;
+            position: absolute;
         }
-        
 
         .b-container {
             display: block;
             position: relative;
             height: auto;
+            margin-bottom: 100px;
         }
 
         .b-btn-hidden {
             visibility: hidden;
         }
+
         .b-add-column, .b-add-row {
             background-color: #F5AA00;
             transition: background-color 1s linear 0.2s;
@@ -48,7 +50,6 @@
             transition: background-color 1s linear 0.2s;
         }
 
-
         .b-remove {
             background-color: #BB0000;
             transition: background-color 1s linear 0.2s;
@@ -59,19 +60,23 @@
             background-color: #D33745;
             transition: background-color 1s linear 0.2s;
         }
+
         .b-remove-column {
             margin-left: 55px;
             margin-bottom: 2px;
         }
+
         .b-remove-row {
             margin-top: 55px;
             margin-right: 2px;
         }
+
         .b-add-row {
             left: 56px;
             top: 100%;
             margin-top: -2px;
         }
+
         .b-add-column {
             top: 56px;
             margin-left: 2px;
@@ -80,11 +85,11 @@
     </style>
     <div class="b-container">
         <button class="b-btn b-remove b-remove-column b-btn-hidden">-</button>
-            <button class="b-btn b-remove b-remove-row b-btn-hidden">-</button>
-            <table class="b-table"></table>
-            <button class="b-btn b-add-column">+</button>
+        <button class="b-btn b-remove b-remove-row b-btn-hidden">-</button>
+        <table class="b-table"></table>
+        <button class="b-btn b-add-column">+</button>
         <button class="b-btn b-add-row">+</button>
-        </div>
+    </div>
 </template>
 
 <script type="text/javascript" src="script.js"></script>
